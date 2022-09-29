@@ -32,17 +32,29 @@
     const bookImages = document.querySelectorAll('.book__image');
 
     for (let bookImage of bookImages){
-      const bookId = bookImage.getAttribute('data-id');
 
       bookImage.addEventListener('dblclick', function (event) {
         event.preventDefault();
 
-        if(!favoriteBooks.bookId && !bookImage.classList.contains('favorite')){
-          favoriteBooks.push(bookId);
-          bookImage.classList.add('favorite');
-        } else {const toRemove = favoriteBooks.indexOf(bookId);
-          favoriteBooks.splice(toRemove, 1);
-          bookImage.classList.remove('favorite');
+        let elemId = event.target.offsetParent.getAttribute('data-id');
+
+        if (
+          !favoriteBooks.includes(elemId) &&
+      event.target.offsetParent.classList.contains('book__image')
+        ) {
+          console.log(favoriteBooks[elemId]);
+          console.log(event);
+          event.target.offsetParent.classList.add('favorite');
+
+          favoriteBooks.push(elemId);
+          console.log(favoriteBooks);
+        } else if (
+          favoriteBooks.includes(elemId) &&
+      event.target.offsetParent.classList.contains('book__image')
+        ) {
+          event.target.offsetParent.classList.remove('favorite');
+          const indexOf = favoriteBooks.indexOf(event.target.offsetParent);
+          favoriteBooks.splice(indexOf, 1);
         }
       });
     }
